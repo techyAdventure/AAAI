@@ -55,7 +55,7 @@ def dqn():
             max_score = np.mean(scores_window)
             print('\nEnvironment solved in {:d} episodes!\tAverage Score: {:.2f}'.format(
                 i_episode-100, np.mean(scores_window)))
-            torch.save(agent.qnetwork_local.state_dict(), 'checkpoint.pth')
+            torch.save(agent.qnetwork_local.state_dict(), 'checkpoint_'+str(agent.reward_)+'.pth')
             # break
     return scores
 
@@ -64,7 +64,7 @@ scores = dqn()
 end_time = time.time()
 
 scores_dqn_np = np.array(scores)
-np.savetxt("scores_reward.txt", scores_dqn_np)
+np.savetxt("scores_r_"+str(agent.reward_)+".txt", scores_dqn_np)
 
 def convert(seconds):
     seconds = seconds % (24 * 3600)
@@ -83,7 +83,7 @@ train_info_dictionary = {'algorithm': 'DQN_dual_mem', 'eps_start': eps_start, 'e
                          'eps_decay': eps_decay, 'episodes': n_episodes, 'train_time': train_time,
                          'len1':agent.lenmem1, 'len3':agent.lenmem2, 'loss':agent.reward_, 'pop counter': agent.counter}
 
-train_info_file = open('train_info.json', 'w')
+train_info_file = open('info_r_'+str(agent.reward_)+'.json', 'w')
 json.dump(train_info_dictionary, train_info_file)
 train_info_file.close()
 
