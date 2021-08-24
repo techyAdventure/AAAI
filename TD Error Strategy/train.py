@@ -55,7 +55,7 @@ def dqn():
             max_score = np.mean(scores_window)
             print('\nEnvironment solved in {:d} episodes!\tAverage Score: {:.2f}'.format(
                 i_episode-100, np.mean(scores_window)))
-            torch.save(agent.qnetwork_local.state_dict(), "checkpoint_"+str(agent.td_)+".pth")
+            torch.save(agent.qnetwork_local.state_dict(), "checkpoint_td_"+str(agent.td_)+".pth")
 
     return scores
 
@@ -64,7 +64,7 @@ scores = dqn()
 end_time = time.time()
 
 scores_dqn_np = np.array(scores)
-np.savetxt("scores_"+str(agent.td_)+".txt", scores_dqn_np)
+np.savetxt("scores_td_"+str(agent.td_)+".txt", scores_dqn_np)
 
 def convert(seconds):
     seconds = seconds % (24 * 3600)
