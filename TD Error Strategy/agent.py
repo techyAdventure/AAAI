@@ -112,7 +112,7 @@ class Agent():
         Q_expected = self.qnetwork_local(states).gather(1, actions)
         
         q_target_np = Q_targets.detach().cpu().numpy()
-        print(np.max(q_target_np))
+        #print(np.max(q_target_np))
       
         if (np.max(q_target_np) > self.td_):    
             self.memory2.add(states.cpu(), actions.cpu(), rewards.cpu(), next_states.cpu(), dones.cpu())
