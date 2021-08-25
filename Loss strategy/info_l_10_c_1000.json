@@ -1,0 +1,1 @@
+{"algorithm": "DQN_dual_mem", "eps_start": 1.0, "eps_end": 0.01, "eps_decay": 0.9995, "episodes": 10000, "train_time": "Execution time: 2 hours : 43 minutes : 43 seconds", "len1": 1760444, "len3": 1473238, "loss": 10, "pop counter": 1000}
