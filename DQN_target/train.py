@@ -1,3 +1,4 @@
+import json
 import torch
 from agent import Agent
 import gym
@@ -17,7 +18,7 @@ print('State shape: ', env.observation_space.shape)
 print('Number of actions: ', env.action_space.n)
 
 
-agent = Agent(state_size=8, action_size=4, seed=0)
+agent = Agent(state_size=env.observation_space.shape[0], action_size=env.action_space.n, seed=0)
 
 # # # watch an untrained agent
 # state = env.reset()
@@ -33,10 +34,15 @@ agent = Agent(state_size=8, action_size=4, seed=0)
 
 # env.close()
 
+n_episodes = 10_000
+max_t = 200
+eps_start = 1.0
+eps_end = 0.01
+eps_decay = 0.9995
 
-def dqn(n_episodes=10_000, max_t=200, eps_start=1.0, eps_end=0.01, eps_decay=0.9995):
+
+def dqn(n_episodes=n_episodes, max_t=max_t, eps_start=eps_start, eps_end=eps_end, eps_decay=eps_decay):
     """Deep Q-Learning.
-
     Params
     ======
         n_episodes (int): maximum number of training episodes
@@ -51,16 +57,12 @@ def dqn(n_episodes=10_000, max_t=200, eps_start=1.0, eps_end=0.01, eps_decay=0.9
     max_score = 100.0
     for i_episode in range(1, n_episodes+1):
         state = env.reset()
-        # print(type(state))
-        # quit()
         score = 0
         for t in range(max_t):
             # env.render()
-            # time.sleep(1)
             action = agent.act(state, eps)
             next_state, reward, done, _ = env.step(action)
             agent.step(state, action, reward, next_state, done)
-            # print(state)
             state = next_state
             score += reward
             if done:
@@ -83,12 +85,14 @@ def dqn(n_episodes=10_000, max_t=200, eps_start=1.0, eps_end=0.01, eps_decay=0.9
             # break
     return scores
 
+
 start_time = time.time()
 scores = dqn()
 end_time = time.time()
 
 scores_dqn_np = np.array(scores)
-np.savetxt("scores_dqn_classic2.txt", scores_dqn_np)
+np.savetxt("scores_dqn.txt", scores_dqn_np)
+
 
 def convert(seconds):
     seconds = seconds % (24 * 3600)
@@ -99,9 +103,17 @@ def convert(seconds):
 
     return "Execution time: %d hours : %02d minutes : %02d seconds" % (hour, minutes, seconds)
 
+
 n = end_time-start_time
 train_time = convert(n)
 print(train_time)
+
+train_info_dictionary = {'algorithm': 'DQN', 'train_time': train_time, 'eps_start': eps_start, 'eps_end': eps_end,
+                         'eps_decay': eps_decay, 'episodes': n_episodes}
+
+train_info_file = open('train_info.json', 'w')
+json.dump(train_info_dictionary, train_info_file)
+train_info_file.close()
 
 
 def moving_average(a, n=100):
@@ -119,18 +131,3 @@ plt.plot(np.arange(len(scores_ma_dqn)), scores_ma_dqn)
 plt.ylabel('Scores')
 plt.xlabel('Episodes')
 plt.show()
-
-
-# # load the weights from file
-# agent.qnetwork_local.load_state_dict(torch.load('checkpoint.pth'))
-
-# for i in range(10):
-#     state = env.reset()
-#     for j in range(200):
-#         action = agent.act(state)
-#         env.render()
-#         state, reward, done, _ = env.step(action)
-#         if done:
-#             break
-
-# env.close()
