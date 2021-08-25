@@ -11,8 +11,8 @@ import matplotlib.pyplot as plt
 
 import time
 
-env = gym.make('LunarLander-v2')
-#env = gym.make('MountainCar-v0')
+#env = gym.make('LunarLander-v2')
+env = gym.make('MountainCar-v0')
 env.seed(0)
 print('State shape: ', env.observation_space.shape)
 print('Number of actions: ', env.action_space.n)
@@ -54,7 +54,7 @@ def dqn(n_episodes=n_episodes, max_t=max_t, eps_start=eps_start, eps_end=eps_end
     scores = []                        # list containing scores from each episode
     scores_window = deque(maxlen=100)  # last 100 scores
     eps = eps_start                    # initialize epsilon
-    max_score = 100.0
+    max_score = -130.0
     for i_episode in range(1, n_episodes+1):
         state = env.reset()
         score = 0
