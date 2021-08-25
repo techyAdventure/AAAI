@@ -1,3 +1,4 @@
+
 #IMPORTS
 import torch
 from agent import Agent
@@ -8,8 +9,8 @@ import json
 import time
 import gym
 
-env = gym.make('LunarLander-v2')
-#env = gym.make('MountainCar-v0')
+#env = gym.make('LunarLander-v2')
+env = gym.make('MountainCar-v0')
 env.seed(0)
 agent = Agent(state_size=env.observation_space.shape[0], action_size=env.action_space.n, seed=3)
 
