@@ -116,7 +116,7 @@ class Agent():
         avg_reward = np.sum(self.rewards_np) / (BATCH_SIZE)
         
         if (avg_reward > self.reward_):    
-            self.memory2.add(states, actions, rewards, next_states, dones)
+            self.memory2.add(states.cpu(), actions.cpu(), rewards.cpu(), next_states.cpu(), dones.cpu())
             self.lenmem2 += 1
         
         if (self.lenmem1 >= BUFFER_SIZE):
