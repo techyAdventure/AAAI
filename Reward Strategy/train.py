@@ -7,8 +7,8 @@ import json
 import time
 import gym
 
-env = gym.make('LunarLander-v2')
-#env = gym.make('MountainCar-v0')
+#env = gym.make('LunarLander-v2')
+env = gym.make('MountainCar-v0')
 env.seed(0)
 
 agent = Agent(state_size= env.observation_space.shape[0], action_size=env.action_space.n, seed=3)
@@ -23,7 +23,7 @@ def dqn():
     scores = []                        # list containing scores from each episode
     scores_window = deque(maxlen=100)  # last 100 scores
     eps = eps_start                    # initialize epsilon
-    max_score = 200.0
+    max_score = -130.0
     for i_episode in range(1, n_episodes+1):
         #env.render()
         state = env.reset()
