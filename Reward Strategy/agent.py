@@ -15,7 +15,7 @@ GAMMA = 0.99            # discount factor
 TAU = 1e-3              # for soft update of target parameters
 LR = 5e-4               # learning rate
 
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+device = torch.device("cpu" if torch.cuda.is_available() else "cpu")
 
 alpha_start=0.05
 alpha_end= 1
@@ -103,7 +103,7 @@ class Agent():
         states, actions, rewards, next_states, dones = experiences
 
         Q_targets_next = self.qnetwork_target(
-            next_states).detach().max(1)[0].unsqueeze(1)
+                next_states).detach().max(1)[0].unsqueeze(1)
         
         # Compute Q targets for current states
         Q_targets = rewards + (gamma * Q_targets_next * (1 - dones))
@@ -113,9 +113,12 @@ class Agent():
         
         self.rewards_np = rewards.detach().cpu().numpy()
 
-        avg_reward = np.sum(self.rewards_np) / (BATCH_SIZE)
+        avg_reward = (np.sum(self.rewards_np)) // (BATCH_SIZE)
         
-        if (avg_reward > self.reward_):    
+        print(avg_reward, '==========')
+
+        if (avg_reward > self.reward_):
+            #print('mem2')
             self.memory2.add(states.cpu(), actions.cpu(), rewards.cpu(), next_states.cpu(), dones.cpu())
             self.lenmem2 += 1
         
