@@ -115,7 +115,7 @@ class Agent():
 
         avg_reward = (np.sum(self.rewards_np)) // (BATCH_SIZE)
         
-        print(avg_reward, '==========')
+        #print(avg_reward, '==========')
 
         if (avg_reward > self.reward_):
             #print('mem2')
