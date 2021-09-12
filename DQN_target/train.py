@@ -10,14 +10,15 @@ import matplotlib.pyplot as plt
 
 import time
 
-env = gym.make('LunarLander-v2')
+#env = gym.make('LunarLander-v2')
 #env = gym.make('MountainCar-v0')
+env = gym.make('CartPole-v1')
 env.seed(0)
 print('State shape: ', env.observation_space.shape)
 print('Number of actions: ', env.action_space.n)
 
 
-agent = Agent(state_size=8, action_size=4, seed=0)
+agent = Agent(state_size=env.observation_space.shape[0], action_size=env.action_space.n, seed=0)
 
 # # # watch an untrained agent
 # state = env.reset()
@@ -79,7 +80,7 @@ def dqn(n_episodes=10_000, max_t=200, eps_start=1.0, eps_end=0.01, eps_decay=0.9
             print('\nEnvironment solved in {:d} episodes!\tAverage Score: {:.2f}'.format(
                 i_episode-100, np.mean(scores_window)))
             torch.save(agent.qnetwork_local.state_dict(),
-                       'checkpoint.pth')
+                       'checkpoint_cartpole.pth')
             # break
     return scores
 
@@ -88,7 +89,7 @@ scores = dqn()
 end_time = time.time()
 
 scores_dqn_np = np.array(scores)
-np.savetxt("scores_dqn_classic2.txt", scores_dqn_np)
+np.savetxt("scores_dqn_classic2_cartpole.txt", scores_dqn_np)
 
 def convert(seconds):
     seconds = seconds % (24 * 3600)

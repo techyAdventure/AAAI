@@ -10,8 +10,9 @@ import gym
 
 env = gym.make('LunarLander-v2')
 #env = gym.make('MountainCar-v0')
+env = gym.make('CartPole-v1')
 env.seed(0)
-agent = Agent(state_size=env.observation_space.shape[0], action_size=env.action_space.n, seed=3)
+agent = Agent(state_size=env.observation_space.shape[0], action_size=env.action_space.n, seed=0)
 
 #VARIABLES
 n_episodes=10000
@@ -57,7 +58,7 @@ def dqn():
             max_score = np.mean(scores_window)
             print('\nEnvironment solved in {:d} episodes!\tAverage Score: {:.2f}'.format(
                 i_episode-100, np.mean(scores_window)))
-            torch.save(agent.qnetwork_local.state_dict(), 'checkpoint_l_'+str(agent.loss_)+"_c_"+str(agent.counter)+'.pth')
+            torch.save(agent.qnetwork_local.state_dict(), 'checkpoint_cartpole_l_'+str(agent.loss_)+"_c_"+str(agent.counter)+'.pth')
 
     return scores
 
@@ -66,7 +67,7 @@ scores = dqn()
 end_time = time.time()
 
 scores_dqn_np = np.array(scores)
-np.savetxt("scores_l_"+str(agent.loss_)+"_c_"+str(agent.counter)+".txt", scores_dqn_np)
+np.savetxt("scores_cartpole_l_"+str(agent.loss_)+"_c_"+str(agent.counter)+".txt", scores_dqn_np)
 
 def convert(seconds):
     seconds = seconds % (24 * 3600)
@@ -85,7 +86,7 @@ train_info_dictionary = {'algorithm': 'DQN_dual_mem', 'eps_start': eps_start, 'e
                          'eps_decay': eps_decay, 'episodes': n_episodes, 'train_time': train_time,
                          'len1':agent.lenmem1, 'len3':agent.lenmem2, 'loss':agent.loss_, 'pop counter': agent.counter}
 
-train_info_file = open('info_l_'+str(agent.loss_)+"_c_"+str(agent.counter)+'.json', 'w')
+train_info_file = open('info_cartpole_l_'+str(agent.loss_)+"_c_"+str(agent.counter)+'.json', 'w')
 json.dump(train_info_dictionary, train_info_file)
 train_info_file.close()
 
